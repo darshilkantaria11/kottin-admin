@@ -1,33 +1,30 @@
-// /app/login/page.js
 'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-
 export default function LoginPage() {
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const router = useRouter();
 
   const handleLogin = (e) => {
     e.preventDefault();
 
     // Fetch credentials from environment variables
-    const storedUserId = process.env.NEXT_PUBLIC_ADMIN_USERNAME;
-    const storedPassword = process.env.NEXT_PUBLIC_USER_PASSWORD;
+    const storedUserId = process.env.NEXT_PUBLIC_ADMIN_USERNAME; // Check that this variable is set correctly in Vercel
+    const storedPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD; // Correct environment variable names
 
     if (userId === storedUserId && password === storedPassword) {
-      localStorage.setItem('token', 'your-auth-token');
+      localStorage.setItem('token', 'admin-token');
       router.push('/dashboard');
     } else {
-      alert('Invalid credentials');
+      setError('Invalid credentials');
     }
   };
 
   return (
-    <>
-
     <div className="min-h-screen flex flex-col items-center justify-center bg-g3">
       <div className="w-full max-w-sm p-6 bg-g1 rounded-lg shadow-lg">
         {/* Logo and Title */}
@@ -63,11 +60,14 @@ export default function LoginPage() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm "
+              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm"
               placeholder="Enter your Password"
               required
             />
           </div>
+
+          {/* Display error message if credentials are incorrect */}
+          {error && <p className="text-red-500">{error}</p>}
 
           <button
             type="submit"
@@ -76,13 +76,12 @@ export default function LoginPage() {
             Login
           </button>
         </form>
-        
+
         {/* Footer */}
         <div className="text-center mt-6">
           <p className="text-xs text-black">© 2024 Knottin Daycare. All rights reserved.</p>
         </div>
       </div>
     </div>
-    </>
   );
 }
