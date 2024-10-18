@@ -14,7 +14,7 @@ export default function LoginPage() {
     e.preventDefault();
 
     // Fetch credentials from environment variables
-    const storedUserId = process.env.NEXT_PUBLIC_USER_ID;
+    const storedUserId = process.env.NEXT_PUBLIC_ADMIN_USERNAME;
     const storedPassword = process.env.NEXT_PUBLIC_USER_PASSWORD;
 
     if (userId === storedUserId && password === storedPassword) {
