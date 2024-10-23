@@ -17,24 +17,25 @@ export default function AddPositionPage() {
   const [updateId, setUpdateId] = useState(null);
   const router = useRouter();
 
-  useEffect(() => {
-    // Fetch positions when the component mounts
-    fetchPositions();
-  }, []);
-
+  // Fetch positions when the component mounts and when needed
   const fetchPositions = async () => {
     try {
-      const response = await fetch('/api/positions'); // Create this API route to fetch positions
+      const response = await fetch('/api/positions');
       const data = await response.json();
       if (response.ok) {
-        setPositions(data); // Assuming the data is an array of positions
+        setPositions(data);
       } else {
         setError(data.message || 'Failed to fetch positions.');
       }
     } catch (err) {
+      console.error(err); // Log the error for debugging
       setError('Error fetching positions.');
     }
   };
+
+  useEffect(() => {
+    fetchPositions(); // Call fetch positions on mount
+  }, []);
 
   const handleChange = (e) => {
     setForm({
@@ -76,6 +77,7 @@ export default function AddPositionPage() {
       }
     } catch (err) {
       setLoading(false);
+      console.error(err); // Log the error for debugging
       setError('Error submitting the form.');
     }
   };
@@ -93,6 +95,7 @@ export default function AddPositionPage() {
 
   const handleDelete = async (id) => {
     if (confirm('Are you sure you want to delete this position?')) {
+      setLoading(true); // Indicate loading state
       try {
         const response = await fetch(`/api/deleteposition/${id}`, {
           method: 'DELETE',
@@ -105,7 +108,10 @@ export default function AddPositionPage() {
           setError(data.message || 'Failed to delete position.');
         }
       } catch (err) {
+        console.error(err); // Log the error for debugging
         setError('Error deleting position.');
+      } finally {
+        setLoading(false); // Ensure loading state is reset
       }
     }
   };
@@ -161,8 +167,8 @@ export default function AddPositionPage() {
               onChange={handleChange}
               className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
             >
-              <option value="Full-time">Full-time</option> {/* Updated */}
-              <option value="Part-time">Part-time</option> {/* Updated */}
+              <option value="Full-time">Full-time</option>
+              <option value="Part-time">Part-time</option>
             </select>
           </div>
 
