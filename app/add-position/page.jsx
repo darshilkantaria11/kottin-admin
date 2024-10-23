@@ -24,19 +24,17 @@ export default function AddPositionPage() {
 
   const fetchPositions = async () => {
     try {
-        const response = await fetch(`/api/positions?timestamp=${Date.now()}`); // Adding a timestamp to bypass cache
-        const data = await response.json();
-
-        if (response.ok) {
-            setPositions(data); // Set the fetched positions
-        } else {
-            setError(data.message || 'Failed to fetch positions.');
-        }
+      const response = await fetch('/api/positions'); // Create this API route to fetch positions
+      const data = await response.json();
+      if (response.ok) {
+        setPositions(data); // Assuming the data is an array of positions
+      } else {
+        setError(data.message || 'Failed to fetch positions.');
+      }
     } catch (err) {
-        setError('Error fetching positions.');
+      setError('Error fetching positions.');
     }
-};
-
+  };
 
   const handleChange = (e) => {
     setForm({
