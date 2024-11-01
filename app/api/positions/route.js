@@ -1,4 +1,4 @@
-// /app/api/positions/route.js
+
 import { dbConnect } from '../../utils/mongoose';
 import Position from '../../models/position';
 import { NextResponse } from 'next/server';

@@ -21,7 +21,9 @@ export default function AddPositionPage() {
   const fetchPositions = async () => {
     try {
       const response = await fetch('/api/positions');
+      console.log(response)
       const data = await response.json();
+      console.log(data)
       if (response.ok) {
         setPositions(data);
       } else {
@@ -35,7 +37,7 @@ export default function AddPositionPage() {
 
   useEffect(() => {
     fetchPositions(); // Call fetch positions on mount
-  }, []);
+  }, [form]);
 
   const handleChange = (e) => {
     setForm({
