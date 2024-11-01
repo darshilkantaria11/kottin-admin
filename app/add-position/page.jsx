@@ -37,7 +37,7 @@ export default function AddPositionPage() {
 
   useEffect(() => {
     fetchPositions(); // Call fetch positions on mount
-  }, [form]);
+  }, []);
 
   const handleChange = (e) => {
     setForm({
